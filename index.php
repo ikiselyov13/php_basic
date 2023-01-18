@@ -1,7 +1,15 @@
 <?php
-
+//session_start();
+//unset($_SESSION['username']);
 $controller = $_GET['controller'] ?? 'index';
 
 $routes = require 'routes.php';
 
-require_once $routes[$controller] ?? die('404');
+try {
+    require_once $routes[$controller];
+} catch (PDOException $exception) {
+    echo "Проблемы с БД позвоните админу";
+} catch (Exception $exception) {
+    $error = $exception->getMessage();
+}
+
